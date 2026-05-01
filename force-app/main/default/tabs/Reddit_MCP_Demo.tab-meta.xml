@@ -2,5 +2,6 @@
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Reddit MCP Demo Page</description>
     <flexiPage>Reddit_MCP_Demo</flexiPage>
-    <label>Demo</label>
+    <label> </label>
+    <motif>Custom1: Airplane</motif>
 </CustomTab>
