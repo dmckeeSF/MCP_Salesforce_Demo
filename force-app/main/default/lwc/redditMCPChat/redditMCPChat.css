@@ -1,3 +1,8 @@
+/* Hide page-level header */
+:host {
+    display: block;
+}
+
 .card-title-container {
     display: flex;
     align-items: center;

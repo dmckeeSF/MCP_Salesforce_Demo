@@ -12,7 +12,7 @@
     </flexiPageRegions>
     <masterLabel>Reddit MCP Demo</masterLabel>
     <template>
-        <name>one:defaultAppHomeTemplate</name>
+        <name>flexipage:defaultAppHomeTemplate</name>
     </template>
     <type>AppPage</type>
 </FlexiPage>
