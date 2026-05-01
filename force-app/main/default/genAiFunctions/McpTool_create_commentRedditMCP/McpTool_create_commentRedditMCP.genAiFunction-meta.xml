@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Create a comment on a post or reply to another comment</description>
+    <developerName>McpTool_create_commentRedditMCP</developerName>
+    <invocationTarget>1XOam0000005ZOZGA2</invocationTarget>
+    <invocationTargetType>mcpTool</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>McpTool_create_commentRedditMCP</localDeveloperName>
+    <masterLabel>create_comment - RedditMCP</masterLabel>
+</GenAiFunction>

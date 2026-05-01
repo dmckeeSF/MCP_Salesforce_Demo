@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Get posts by a specific user</description>
+    <developerName>McpTool_get_user_postsRedditMCP</developerName>
+    <invocationTarget>1XOam0000005ZObGAM</invocationTarget>
+    <invocationTargetType>mcpTool</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>McpTool_get_user_postsRedditMCP</localDeveloperName>
+    <masterLabel>get_user_posts - RedditMCP</masterLabel>
+</GenAiFunction>

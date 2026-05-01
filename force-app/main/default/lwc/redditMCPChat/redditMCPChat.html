@@ -1,0 +1,107 @@
+<template>
+    <lightning-card title="Reddit MCP Chat" icon-name="custom:custom14">
+        <div class="slds-p-around_medium">
+
+            <div class="chat-container">
+                <div class="messages-container">
+                    <template if:true={hasMessages}>
+                        <template for:each={messages} for:item="msg">
+                            <div key={msg.id} class={msg.cssClass}>
+                                <div class="message-header">
+                                    <lightning-icon
+                                        icon-name={msg.icon}
+                                        size="x-small"
+                                        class="message-icon">
+                                    </lightning-icon>
+                                    <span class="message-role">{msg.role}</span>
+                                    <span class="message-time">{msg.timestamp}</span>
+                                </div>
+                                <div class="message-content">
+                                    <lightning-formatted-rich-text value={msg.content}>
+                                    </lightning-formatted-rich-text>
+                                </div>
+                                <template if:true={msg.isError}>
+                                    <div class="error-details">
+                                        {msg.errorDetails}
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:false={hasMessages}>
+                        <div class="empty-state">
+                            <lightning-icon
+                                icon-name="utility:chat"
+                                size="large"
+                                class="empty-icon">
+                            </lightning-icon>
+                            <p>Start a conversation with Reddit MCP</p>
+                            <p class="slds-text-color_weak">Select a tool below to begin</p>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="input-container">
+                    <div class="tool-selector">
+                        <lightning-combobox
+                            name="tool"
+                            label="Select Reddit Tool"
+                            value={selectedTool}
+                            placeholder="Choose a tool..."
+                            options={toolOptions}
+                            onchange={handleToolChange}
+                            disabled={isLoading}
+                            required>
+                        </lightning-combobox>
+                    </div>
+
+                    <template if:true={showToolInputs}>
+                        <div class="tool-inputs">
+                            <template for:each={currentToolInputs} for:item="input">
+                                <div key={input.name} class="slds-m-bottom_small">
+                                    <lightning-input
+                                        label={input.label}
+                                        name={input.name}
+                                        type={input.type}
+                                        value={input.value}
+                                        placeholder={input.placeholder}
+                                        required={input.required}
+                                        onchange={handleInputChange}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <div class="action-buttons">
+                        <lightning-button
+                            label="Execute Tool"
+                            variant="brand"
+                            onclick={handleExecute}
+                            disabled={executeDisabled}
+                            class="execute-button">
+                        </lightning-button>
+                        <lightning-button
+                            label="Clear Chat"
+                            variant="neutral"
+                            onclick={handleClearChat}
+                            disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+
+                    <template if:true={isLoading}>
+                        <div class="loading-container">
+                            <lightning-spinner
+                                alternative-text="Loading"
+                                size="small">
+                            </lightning-spinner>
+                            <span class="loading-text">Calling MCP server...</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>

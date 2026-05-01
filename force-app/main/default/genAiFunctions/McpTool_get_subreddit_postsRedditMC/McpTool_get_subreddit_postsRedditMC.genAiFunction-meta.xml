@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Get posts from a specific subreddit</description>
+    <developerName>McpTool_get_subreddit_postsRedditMC</developerName>
+    <invocationTarget>1XOam0000005ZOdGAM</invocationTarget>
+    <invocationTargetType>mcpTool</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>McpTool_get_subreddit_postsRedditMC</localDeveloperName>
+    <masterLabel>get_subreddit_posts - RedditMCP</masterLabel>
+</GenAiFunction>

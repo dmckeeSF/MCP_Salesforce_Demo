@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalServiceRegistration xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Get the latest subreddit posts</description>
+    <label>RedditMCP</label>
+    <namedCredential>RedditMCP</namedCredential>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fsearchx5fposts</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fcreatex5fpost</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fcreatex5fcomment</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fgetx5fcomments</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fgetx5fuserx5fposts</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fgetx5fpost</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>mcptoolx5fx5fgetx5fsubredditx5fposts</name>
+    </operations>
+    <registrationProviderType>ModelContextProtocol</registrationProviderType>
+    <schema>{&quot;serverDescriptor&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;serverInfo&quot;:{&quot;name&quot;:&quot;reddit-mock-server&quot;,&quot;version&quot;:&quot;1.0.0&quot;}},&quot;tools&quot;:[{&quot;name&quot;:&quot;get_subreddit_posts&quot;,&quot;description&quot;:&quot;Get posts from a specific subreddit&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;subreddit&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;limit&quot;:{&quot;type&quot;:&quot;number&quot;},&quot;sort&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;required&quot;:[&quot;subreddit&quot;],&quot;additionalProperties&quot;:false}},{&quot;name&quot;:&quot;get_post&quot;,&quot;description&quot;:&quot;Get a specific post by ID&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;postId&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;required&quot;:[&quot;postId&quot;],&quot;additionalProperties&quot;:false}},{&quot;name&quot;:&quot;create_post&quot;,&quot;description&quot;:&quot;Create a new post in a subreddit&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;title&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;content&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;subreddit&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;author&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;url&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;required&quot;:[&quot;title&quot;,&quot;subreddit&quot;,&quot;author&quot;],&quot;additionalProperties&quot;:false}},{&quot;name&quot;:&quot;get_comments&quot;,&quot;description&quot;:&quot;Get comments for a specific post&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;postId&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;limit&quot;:{&quot;type&quot;:&quot;number&quot;}},&quot;required&quot;:[&quot;postId&quot;],&quot;additionalProperties&quot;:false}},{&quot;name&quot;:&quot;create_comment&quot;,&quot;description&quot;:&quot;Create a comment on a post or reply to another comment&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;postId&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;parentId&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;author&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;content&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;required&quot;:[&quot;postId&quot;,&quot;author&quot;,&quot;content&quot;],&quot;additionalProperties&quot;:false}},{&quot;name&quot;:&quot;search_posts&quot;,&quot;description&quot;:&quot;Search for posts by query&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;query&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;subreddit&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;limit&quot;:{&quot;type&quot;:&quot;number&quot;}},&quot;required&quot;:[&quot;query&quot;],&quot;additionalProperties&quot;:false}},{&quot;name&quot;:&quot;get_user_posts&quot;,&quot;description&quot;:&quot;Get posts by a specific user&quot;,&quot;inputSchema&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;username&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;limit&quot;:{&quot;type&quot;:&quot;number&quot;}},&quot;required&quot;:[&quot;username&quot;],&quot;additionalProperties&quot;:false}}],&quot;resources&quot;:[]}</schema>
+    <schemaType>ModelContextProtocol</schemaType>
+    <serviceBinding>{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;serverInfo&quot;:{&quot;name&quot;:&quot;reddit-mock-server&quot;,&quot;version&quot;:&quot;1.0.0&quot;},&quot;instructions&quot;:null}</serviceBinding>
+    <status>Complete</status>
+    <systemVersion>8</systemVersion>
+</ExternalServiceRegistration>

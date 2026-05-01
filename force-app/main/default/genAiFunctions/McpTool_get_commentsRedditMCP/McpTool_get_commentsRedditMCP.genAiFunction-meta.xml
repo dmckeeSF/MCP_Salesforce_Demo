@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Get comments for a specific post</description>
+    <developerName>McpTool_get_commentsRedditMCP</developerName>
+    <invocationTarget>1XOam0000005ZOaGAM</invocationTarget>
+    <invocationTargetType>mcpTool</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>McpTool_get_commentsRedditMCP</localDeveloperName>
+    <masterLabel>get_comments - RedditMCP</masterLabel>
+</GenAiFunction>

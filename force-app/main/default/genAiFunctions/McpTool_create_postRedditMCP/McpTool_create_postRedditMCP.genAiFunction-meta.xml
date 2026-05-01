@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Create a new post in a subreddit</description>
+    <developerName>McpTool_create_postRedditMCP</developerName>
+    <invocationTarget>1XOam0000005ZOYGA2</invocationTarget>
+    <invocationTargetType>mcpTool</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>McpTool_create_postRedditMCP</localDeveloperName>
+    <masterLabel>create_post - RedditMCP</masterLabel>
+</GenAiFunction>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Search for posts by query</description>
+    <developerName>McpTool_search_postsRedditMCP</developerName>
+    <invocationTarget>1XOam0000005ZOXGA2</invocationTarget>
+    <invocationTargetType>mcpTool</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>McpTool_search_postsRedditMCP</localDeveloperName>
+    <masterLabel>search_posts - RedditMCP</masterLabel>
+</GenAiFunction>
