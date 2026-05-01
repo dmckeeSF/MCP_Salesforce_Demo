@@ -13,6 +13,10 @@
     <masterLabel>Reddit MCP Demo</masterLabel>
     <template>
         <name>flexipage:defaultAppHomeTemplate</name>
+        <properties>
+            <name>showPageTitle</name>
+            <value>false</value>
+        </properties>
     </template>
     <type>AppPage</type>
 </FlexiPage>
