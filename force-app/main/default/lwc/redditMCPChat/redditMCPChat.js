@@ -2,6 +2,7 @@ import { LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getAvailableTools from '@salesforce/apex/RedditMCPAgentController.getAvailableTools';
 import invokeGenAIFunction from '@salesforce/apex/RedditMCPAgentController.invokeGenAIFunction';
+import RedditLogo from '@salesforce/resourceUrl/RedditLogo';
 
 export default class RedditMCPChat extends LightningElement {
     @track messages = [];
@@ -12,6 +13,7 @@ export default class RedditMCPChat extends LightningElement {
     @track toolsMetadata = [];
 
     messageIdCounter = 0;
+    redditLogoUrl = RedditLogo;
 
     connectedCallback() {
         this.loadAvailableTools();

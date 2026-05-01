@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <brand>
-        <headerColor>#0176D3</headerColor>
+        <headerColor>#FF4500</headerColor>
+        <logo>RedditLogo</logo>
+        <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <description>Demo application for Reddit MCP integration using standard Apex HTTP callouts</description>

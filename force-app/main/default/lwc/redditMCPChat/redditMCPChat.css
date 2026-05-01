@@ -1,3 +1,19 @@
+.card-title-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reddit-logo {
+    width: 28px;
+    height: 28px;
+}
+
+.card-title-text {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .chat-container {
     display: flex;
     flex-direction: column;
