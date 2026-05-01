@@ -4,7 +4,7 @@ A production-ready demonstration of integrating Model Context Protocol (MCP) ser
 
 ## Overview
 
-This demo showcases how to call MCP servers directly from Salesforce using standard HTTP callouts with Named Credentials for secure authentication management.
+This demo showcases how to call MCP servers from Salesforce using standard Apex HTTP callouts with Named Credentials for secure authentication management.
 
 ## What This Demo Includes
 
@@ -24,9 +24,9 @@ User Click → LWC → Apex Controller → Named Credential → HTTP Callout →
 
 - ✅ Production-ready integration pattern
 - ✅ Secure credential management via Named Credentials
-- ✅ Direct HTTP access with full control
+- ✅ Standard Apex HTTP callouts
 - ✅ Flexible configuration (headers, timeout, error handling)
-- ✅ Standard Salesforce integration approach
+- ✅ Uses standard Salesforce platform capabilities
 - ✅ Easy to test and debug
 
 ## Documentation
@@ -85,9 +85,10 @@ This demo uses Reddit MCP server integration as an example:
 The flow:
 1. LWC captures user input
 2. Apex builds JSON-RPC request
-3. Named Credential adds authentication
-4. MCP server processes request
-5. Response displayed in LWC UI
+3. Standard Apex HTTP callout with Named Credential
+4. Named Credential adds authentication
+5. MCP server processes request
+6. Response displayed in LWC UI
 
 ## Benefits
 

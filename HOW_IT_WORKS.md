@@ -113,8 +113,8 @@ Http http = new Http();
 HttpResponse res = http.send(req);
 ```
 
-**Direct network integration:**
-- HTTP callout to MCP server
+**Standard Apex HTTP callout:**
+- Uses standard Apex HTTP classes
 - Secure communication via Named Credential
 - Supports standard authentication patterns
 
@@ -393,18 +393,18 @@ force-app/main/default/
 
 ## Summary
 
-**This integration works by making direct HTTP callouts:**
+**This integration uses standard Apex HTTP callouts:**
 
 1. LWC calls `@AuraEnabled` Apex method
 2. Apex builds JSON-RPC 2.0 request
-3. Apex uses `Http` class with Named Credential
+3. Apex uses standard `Http` and `HttpRequest` classes with Named Credential
 4. Named Credential resolves to MCP server URL + auth
-5. HTTP request sent directly to MCP server
+5. Standard HTTP callout sent to MCP server
 6. MCP server processes and returns response
 7. Apex parses response (handles SSE format)
 8. Response returned to LWC
 9. LWC displays results in chat UI
 
-**This is a direct API integration** using Salesforce's standard HTTP callout capabilities with Named Credentials for secure authentication management.
+**This uses standard Apex HTTP callout capabilities** with Named Credentials for secure authentication management.
 
 The pattern is flexible, testable, and production-ready for integrating MCP servers with Salesforce applications.
