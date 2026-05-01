@@ -1,0 +1,159 @@
+<template>
+    <lightning-card title="MCP Demo Setup" icon-name="utility:settings">
+        <div class="slds-p-around_medium">
+
+            <!-- Setup Instructions -->
+            <div class="slds-box slds-box_x-small slds-theme_shade slds-m-bottom_medium">
+                <h3 class="slds-text-heading_small slds-m-bottom_x-small">
+                    <lightning-icon icon-name="utility:info" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    Setup Instructions
+                </h3>
+                <p class="slds-text-body_small">
+                    The MCP server resets data several times daily. Use these buttons to populate sample posts and comments for your demo:
+                </p>
+                <ol class="slds-list_ordered slds-m-top_x-small slds-text-body_small">
+                    <li>Click "Send Sample Posts" to create 6 posts across different subreddits</li>
+                    <li>Click "Send Sample Comments" to add engaging replies to those posts</li>
+                    <li>Use the demo utterances below to showcase the MCP integration</li>
+                </ol>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="slds-grid slds-gutters slds-m-bottom_large">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-button
+                        label="Send Sample Posts"
+                        variant="brand"
+                        icon-name="utility:add"
+                        onclick={handleSendPosts}
+                        disabled={isLoadingPosts}
+                        class="slds-m-bottom_small full-width-button">
+                    </lightning-button>
+                    <p class="slds-text-body_small slds-text-color_weak">
+                        Creates 6 posts about Agentforce, MCP, Slack, Tableau, and more
+                    </p>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-button
+                        label="Send Sample Comments"
+                        variant="success"
+                        icon-name="utility:comments"
+                        onclick={handleSendComments}
+                        disabled={isLoadingComments}
+                        class="slds-m-bottom_small full-width-button">
+                    </lightning-button>
+                    <p class="slds-text-body_small slds-text-color_weak">
+                        Adds 4 comments to the created posts
+                    </p>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <template if:true={isLoadingPosts}>
+                <div class="slds-m-bottom_medium">
+                    <lightning-spinner alternative-text="Creating posts..." size="small"></lightning-spinner>
+                    <p class="slds-text-align_center slds-text-body_small slds-m-top_small">
+                        Creating sample posts...
+                    </p>
+                </div>
+            </template>
+
+            <template if:true={isLoadingComments}>
+                <div class="slds-m-bottom_medium">
+                    <lightning-spinner alternative-text="Creating comments..." size="small"></lightning-spinner>
+                    <p class="slds-text-align_center slds-text-body_small slds-m-top_small">
+                        Creating sample comments...
+                    </p>
+                </div>
+            </template>
+
+            <!-- Post Results -->
+            <template if:true={hasPostResults}>
+                <div class="slds-box slds-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Setup Results:</h3>
+                    <ul class="slds-list_dotted">
+                        <template for:each={postResults} for:item="result">
+                            <li key={result} class="slds-text-body_small">{result}</li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+
+            <!-- Demo Utterances -->
+            <div class="slds-box">
+                <h3 class="slds-text-heading_small slds-m-bottom_medium">
+                    <lightning-icon icon-name="utility:page" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    Demo Utterances (Copy & Paste)
+                </h3>
+                <p class="slds-text-body_small slds-m-bottom_medium slds-text-color_weak">
+                    Use these utterances in the Reddit MCP Chat to demonstrate the integration:
+                </p>
+
+                <!-- Utterance 1 -->
+                <div class="utterance-card slds-m-bottom_medium">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                        <span class="slds-text-body_small slds-text-color_weak">Utterance 1: Overview & Research</span>
+                        <lightning-button-icon
+                            icon-name="utility:copy"
+                            variant="bare"
+                            alternative-text="Copy utterance"
+                            title="Copy to clipboard"
+                            data-index="0"
+                            onclick={handleCopyUtterance}>
+                        </lightning-button-icon>
+                    </div>
+                    <div class="utterance-text">
+                        "I'm doing some research on the latest ecosystem trends. Can you show me the newest posts from r/salesforce? I want to see what people are saying about the new platform releases."
+                    </div>
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                        → Triggers get_subreddit_posts with sort: "new"
+                    </p>
+                </div>
+
+                <!-- Utterance 2 -->
+                <div class="utterance-card slds-m-bottom_medium">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                        <span class="slds-text-body_small slds-text-color_weak">Utterance 2: Specific Thread Analysis</span>
+                        <lightning-button-icon
+                            icon-name="utility:copy"
+                            variant="bare"
+                            alternative-text="Copy utterance"
+                            title="Copy to clipboard"
+                            data-index="1"
+                            onclick={handleCopyUtterance}>
+                        </lightning-button-icon>
+                    </div>
+                    <div class="utterance-text">
+                        "That post about the 'Unified Platform' by Cloud_Architect_Sam looks interesting. Can you pull up the full details and show me any comments on it?"
+                    </div>
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                        → Triggers get_post and get_comments
+                    </p>
+                </div>
+
+                <!-- Utterance 3 -->
+                <div class="utterance-card">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                        <span class="slds-text-body_small slds-text-color_weak">Utterance 3: Cross-Channel Integration</span>
+                        <lightning-button-icon
+                            icon-name="utility:copy"
+                            variant="bare"
+                            alternative-text="Copy utterance"
+                            title="Copy to clipboard"
+                            data-index="2"
+                            onclick={handleCopyUtterance}>
+                        </lightning-button-icon>
+                    </div>
+                    <div class="utterance-text">
+                        "What's the latest buzz in the r/Slack community regarding Salesforce? Give me a quick summary of the top post."
+                    </div>
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                        → Demonstrates cross-subreddit navigation
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>
