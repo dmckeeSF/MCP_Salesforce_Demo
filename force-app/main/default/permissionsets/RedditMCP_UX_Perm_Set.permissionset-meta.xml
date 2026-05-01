@@ -3,7 +3,6 @@
     <applicationVisibilities>
         <application>RedditMCP_Demo_App</application>
         <visible>true</visible>
-        <default>true</default>
     </applicationVisibilities>
     <description>Permission set for Reddit MCP Demo App and Page access</description>
     <hasActivationRequired>false</hasActivationRequired>
