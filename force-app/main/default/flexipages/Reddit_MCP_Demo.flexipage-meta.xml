@@ -11,7 +11,6 @@
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>Reddit MCP Demo</masterLabel>
-    <showHeader>false</showHeader>
     <template>
         <name>flexipage:defaultAppHomeTemplate</name>
     </template>
