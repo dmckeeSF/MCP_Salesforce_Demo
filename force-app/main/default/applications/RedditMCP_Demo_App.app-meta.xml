@@ -4,6 +4,7 @@
         <headerColor>#FF4500</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
+    <defaultLandingTab>Reddit_MCP_Demo</defaultLandingTab>
     <description>Demo application for Reddit MCP integration using standard Apex HTTP callouts</description>
     <formFactors>Small</formFactors>
     <formFactors>Large</formFactors>
