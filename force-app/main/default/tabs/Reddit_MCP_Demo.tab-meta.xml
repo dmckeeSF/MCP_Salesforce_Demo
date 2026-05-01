@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Reddit MCP Demo Page</description>
-    <flexiPage>Reddit_MCP_Demo</flexiPage>
-    <label>Reddit MCP Demo</label>
-    <motif>Custom8: Wrench</motif>
-</CustomTab>
