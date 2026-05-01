@@ -82,12 +82,13 @@ export default class McpSetup extends LightningElement {
         'What\'s the latest buzz in the r/Slack community regarding Salesforce? Give me a quick summary of the top post.'
     ];
 
-    async handleSendPosts() {
+    async handleSendPostsAndComments() {
         this.isLoadingPosts = true;
         this.postResults = [];
         this.createdPostIds = {};
 
         try {
+            // First, create all posts
             for (const post of this.samplePosts) {
                 const result = await invokeMCPTool({
                     toolName: 'create_post',
@@ -100,34 +101,85 @@ export default class McpSetup extends LightningElement {
                 });
 
                 if (result.success) {
+                    console.log('Full result object:', JSON.stringify(result, null, 2));
+
                     // Store the post ID for later comment creation
-                    const postData = result.data?.result?.content?.[0]?.text;
-                    if (postData) {
+                    let postId = null;
+
+                    // Check structuredContent first (preferred path)
+                    if (result.data?.result?.structuredContent?.post?.id) {
+                        postId = result.data.result.structuredContent.post.id;
+                    }
+
+                    // Fallback: Check if result.data.result.content[0].text contains the post data
+                    if (!postId && result.data?.result?.content?.[0]?.text) {
                         try {
-                            const parsed = JSON.parse(postData);
-                            if (parsed.id) {
-                                this.createdPostIds[post.key] = parsed.id;
-                                this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (ID: ${parsed.id})`);
-                            } else {
-                                this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (no ID returned)`);
-                            }
+                            const parsed = JSON.parse(result.data.result.content[0].text);
+                            postId = parsed.post?.id || parsed.id;
                         } catch (e) {
-                            console.error('Error parsing post result:', e);
-                            console.error('Post data was:', postData);
-                            this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (parse error)`);
+                            console.log('Could not parse result.data.result.content[0].text');
                         }
+                    }
+
+                    if (postId) {
+                        this.createdPostIds[post.key] = postId;
+                        this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (ID: ${postId})`);
+                        console.log(`Stored post ID ${postId} for key ${post.key}`);
                     } else {
-                        console.error('No post data in result:', JSON.stringify(result));
-                        this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (no data returned)`);
+                        console.error('Could not find post ID in response. Full result:', JSON.stringify(result));
+                        this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (no ID found)`);
                     }
                 } else {
                     this.postResults.push(`✗ Failed: "${post.title}" - ${result.error}`);
                 }
             }
 
-            this.showToast('Success', `Created ${this.samplePosts.length} sample posts!`, 'success');
+            // Now create comments for the posts
+            let successCount = 0;
+            let failedCount = 0;
+
+            console.log('Starting comment creation. Post IDs:', this.createdPostIds);
+            console.log('Comments to create:', this.sampleComments);
+
+            for (const comment of this.sampleComments) {
+                const postId = this.createdPostIds[comment.postKey];
+                if (!postId) {
+                    console.warn(`No post ID found for key: ${comment.postKey}, available keys:`, Object.keys(this.createdPostIds));
+                    this.postResults.push(`✗ Skipped comment: No post found for ${comment.postKey}`);
+                    failedCount++;
+                    continue;
+                }
+
+                console.log(`Creating comment for post ${postId} (key: ${comment.postKey})`);
+
+                const commentResult = await invokeMCPTool({
+                    toolName: 'create_comment',
+                    parameters: {
+                        postId: postId,
+                        // Don't send parentId for top-level comments
+                        content: comment.content,
+                        author: comment.author
+                    }
+                });
+
+                if (commentResult.success) {
+                    successCount++;
+                    this.postResults.push(`✓ Added comment to ${comment.postKey}`);
+                    console.log(`Successfully created comment for ${comment.postKey}`);
+                } else {
+                    failedCount++;
+                    this.postResults.push(`✗ Failed comment for ${comment.postKey}: ${commentResult.error}`);
+                    console.error(`Failed to create comment for ${comment.postKey}:`, commentResult);
+                }
+            }
+
+            if (successCount > 0) {
+                this.showToast('Success', `Created ${this.samplePosts.length} posts and ${successCount} comments!`, 'success');
+            } else {
+                this.showToast('Warning', `Created ${this.samplePosts.length} posts but ${failedCount} comments failed`, 'warning');
+            }
         } catch (error) {
-            this.showToast('Error', 'Error creating posts: ' + this.getErrorMessage(error), 'error');
+            this.showToast('Error', 'Error creating demo data: ' + this.getErrorMessage(error), 'error');
         } finally {
             this.isLoadingPosts = false;
         }
@@ -160,7 +212,8 @@ export default class McpSetup extends LightningElement {
                 const result = await invokeMCPTool({
                     toolName: 'create_comment',
                     parameters: {
-                        post_id: postId,
+                        postId: postId,
+                        // Don't send parentId for top-level comments
                         content: comment.content,
                         author: comment.author
                     }

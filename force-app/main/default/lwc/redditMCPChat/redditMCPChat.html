@@ -7,47 +7,18 @@
         <div class="slds-p-around_medium">
 
             <div class="chat-container">
-                <div class="messages-container">
-                    <template if:true={hasMessages}>
-                        <template for:each={messages} for:item="msg">
-                            <div key={msg.id} class={msg.cssClass}>
-                                <div class="message-header">
-                                    <lightning-icon
-                                        icon-name={msg.icon}
-                                        size="x-small"
-                                        class="message-icon">
-                                    </lightning-icon>
-                                    <span class="message-role">{msg.role}</span>
-                                    <span class="message-time">{msg.timestamp}</span>
-                                </div>
-                                <div class="message-content">
-                                    <lightning-formatted-rich-text value={msg.content}>
-                                    </lightning-formatted-rich-text>
-                                </div>
-                                <template if:true={msg.isError}>
-                                    <div class="error-details">
-                                        {msg.errorDetails}
-                                    </div>
-                                </template>
-                            </div>
-                        </template>
-                    </template>
-
-                    <template if:false={hasMessages}>
-                        <div class="empty-state">
-                            <lightning-icon
-                                icon-name="utility:chat"
-                                size="large"
-                                class="empty-icon">
-                            </lightning-icon>
-                            <p>Start a conversation with Reddit MCP</p>
-                            <p class="slds-text-color_weak">Select a tool below to begin</p>
-                        </div>
-                    </template>
-                </div>
-
                 <div class="input-container">
-                    <div class="tool-selector">
+                    <div class="tool-selector-header" onclick={handleToggleToolSelector}>
+                        <span class="tool-selector-title">Select Reddit Tool</span>
+                        <lightning-icon
+                            icon-name={collapseIconName}
+                            size="x-small"
+                            class="toggle-icon">
+                        </lightning-icon>
+                    </div>
+
+                    <template if:false={toolSelectorCollapsed}>
+                        <div class="tool-selector">
                         <lightning-combobox
                             name="tool"
                             label="Select Reddit Tool"
@@ -99,7 +70,7 @@
                             class="execute-button">
                         </lightning-button>
                         <lightning-button
-                            label="Clear Chat"
+                            label="Clear Results"
                             variant="neutral"
                             onclick={handleClearChat}
                             disabled={isLoading}>
@@ -113,6 +84,130 @@
                                 size="small">
                             </lightning-spinner>
                             <span class="loading-text">Calling MCP server...</span>
+                        </div>
+                    </template>
+                </template>
+                </div>
+
+                <div class="messages-container">
+                    <template if:true={hasMessages}>
+                        <template for:each={messages} for:item="msg">
+                            <div key={msg.id}>
+
+                                <!-- Non-Reddit content (e.g., no results, errors) -->
+                                <template if:false={msg.redditData}>
+                                    <lightning-formatted-rich-text value={msg.content}></lightning-formatted-rich-text>
+                                </template>
+
+                                <!-- Reddit-style cards for posts -->
+                                <template if:true={msg.redditData}>
+                                    <div class="reddit-response">
+                                        <!-- List of posts -->
+                                        <template if:true={msg.isPostsList}>
+                                            <template for:each={msg.redditData.data} for:item="post">
+                                                <div key={post.id} class="reddit-post-card">
+                                                    <div class="post-votes">
+                                                        <lightning-icon icon-name="utility:arrowup" size="x-small"></lightning-icon>
+                                                        <span class="vote-count">{post.score}</span>
+                                                        <lightning-icon icon-name="utility:arrowdown" size="x-small"></lightning-icon>
+                                                    </div>
+                                                    <div class="post-content">
+                                                        <div class="post-meta">
+                                                            <span class="subreddit-name">r/{post.subreddit}</span>
+                                                            <span class="post-author">u/{post.author}</span>
+                                                            <span class="post-time">{post.createdAt}</span>
+                                                        </div>
+                                                        <h3 class="post-title">{post.title}</h3>
+                                                        <template if:true={post.content}>
+                                                            <p class="post-text">{post.content}</p>
+                                                        </template>
+                                                        <div class="post-actions">
+                                                            <span class="comment-count">
+                                                                <lightning-icon icon-name="utility:comments" size="xx-small"></lightning-icon>
+                                                                {post.commentCount} comments
+                                                            </span>
+                                                        </div>
+
+                                                        <!-- Expandable comments section -->
+                                                        <template if:true={post.hasComments}>
+                                                            <div class="post-comments-section">
+                                                                <template for:each={post.comments} for:item="comment">
+                                                                    <div key={comment.id} class="reddit-comment">
+                                                                        <div class="comment-votes">
+                                                                            <lightning-icon icon-name="utility:arrowup" size="xx-small"></lightning-icon>
+                                                                            <span class="vote-count">{comment.score}</span>
+                                                                        </div>
+                                                                        <div class="comment-content">
+                                                                            <div class="comment-meta">
+                                                                                <span class="comment-author">u/{comment.author}</span>
+                                                                                <span class="comment-time">{comment.createdAt}</span>
+                                                                            </div>
+                                                                            <p class="comment-text">{comment.content}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+
+                                        <!-- Single post -->
+                                        <template if:true={msg.isSinglePost}>
+                                            <div class="reddit-post-card">
+                                                <div class="post-votes">
+                                                    <lightning-icon icon-name="utility:arrowup" size="x-small"></lightning-icon>
+                                                    <span class="vote-count">{msg.redditData.data.score}</span>
+                                                    <lightning-icon icon-name="utility:arrowdown" size="x-small"></lightning-icon>
+                                                </div>
+                                                <div class="post-content">
+                                                    <div class="post-meta">
+                                                        <span class="subreddit-name">r/{msg.redditData.data.subreddit}</span>
+                                                        <span class="post-author">u/{msg.redditData.data.author}</span>
+                                                        <span class="post-time">{msg.redditData.data.createdAt}</span>
+                                                    </div>
+                                                    <h3 class="post-title">{msg.redditData.data.title}</h3>
+                                                    <template if:true={msg.redditData.data.content}>
+                                                        <p class="post-text">{msg.redditData.data.content}</p>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <!-- Comments -->
+                                        <template if:true={msg.isCommentsList}>
+                                            <template for:each={msg.redditData.data} for:item="comment">
+                                                <div key={comment.id} class="reddit-comment">
+                                                    <div class="comment-votes">
+                                                        <lightning-icon icon-name="utility:arrowup" size="xx-small"></lightning-icon>
+                                                        <span class="vote-count">{comment.score}</span>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        <div class="comment-meta">
+                                                            <span class="comment-author">u/{comment.author}</span>
+                                                            <span class="comment-time">{comment.createdAt}</span>
+                                                        </div>
+                                                        <p class="comment-text">{comment.content}</p>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:false={hasMessages}>
+                        <div class="empty-state">
+                            <lightning-icon
+                                icon-name="utility:chat"
+                                size="large"
+                                class="empty-icon">
+                            </lightning-icon>
+                            <p>Start a conversation with Reddit MCP</p>
+                            <p class="slds-text-color_weak">Please submit a request to begin</p>
                         </div>
                     </template>
                 </div>

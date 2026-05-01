@@ -9,61 +9,35 @@
                     Setup Instructions
                 </h3>
                 <p class="slds-text-body_small">
-                    The MCP server resets data several times daily. Use these buttons to populate sample posts and comments for your demo:
+                    The MCP server resets data several times daily. Use this button to populate sample posts and comments for your demo:
                 </p>
                 <ol class="slds-list_ordered slds-m-top_x-small slds-text-body_small">
-                    <li>Click "Send Sample Posts" to create 6 posts across different subreddits</li>
-                    <li>Click "Send Sample Comments" to add engaging replies to those posts</li>
-                    <li>Use the demo utterances below to showcase the MCP integration</li>
+                    <li>Click "Create Demo Data" to create 6 posts and 4 comments across different subreddits</li>
+                    <li>Use the agent demo utterances below to showcase the MCP integration</li>
                 </ol>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="slds-grid slds-gutters slds-m-bottom_large">
-                <div class="slds-col slds-size_1-of-2">
-                    <lightning-button
-                        label="Send Sample Posts"
-                        variant="brand"
-                        icon-name="utility:add"
-                        onclick={handleSendPosts}
-                        disabled={isLoadingPosts}
-                        class="slds-m-bottom_small full-width-button">
-                    </lightning-button>
-                    <p class="slds-text-body_small slds-text-color_weak">
-                        Creates 6 posts about Agentforce, MCP, Slack, Tableau, and more
-                    </p>
-                </div>
-
-                <div class="slds-col slds-size_1-of-2">
-                    <lightning-button
-                        label="Send Sample Comments"
-                        variant="success"
-                        icon-name="utility:comments"
-                        onclick={handleSendComments}
-                        disabled={isLoadingComments}
-                        class="slds-m-bottom_small full-width-button">
-                    </lightning-button>
-                    <p class="slds-text-body_small slds-text-color_weak">
-                        Adds 4 comments to the created posts
-                    </p>
-                </div>
+            <!-- Action Button -->
+            <div class="slds-m-bottom_large slds-text-align_center">
+                <lightning-button
+                    label="Create Demo Data"
+                    variant="brand"
+                    icon-name="utility:database"
+                    onclick={handleSendPostsAndComments}
+                    disabled={isLoadingPosts}
+                    class="slds-m-bottom_small">
+                </lightning-button>
+                <p class="slds-text-body_small slds-text-color_weak">
+                    Creates 6 posts about Agentforce, MCP, Slack, Tableau and 4 comments
+                </p>
             </div>
 
             <!-- Loading Indicator -->
             <template if:true={isLoadingPosts}>
                 <div class="slds-m-bottom_medium">
-                    <lightning-spinner alternative-text="Creating posts..." size="small"></lightning-spinner>
+                    <lightning-spinner alternative-text="Creating demo data..." size="small"></lightning-spinner>
                     <p class="slds-text-align_center slds-text-body_small slds-m-top_small">
-                        Creating sample posts...
-                    </p>
-                </div>
-            </template>
-
-            <template if:true={isLoadingComments}>
-                <div class="slds-m-bottom_medium">
-                    <lightning-spinner alternative-text="Creating comments..." size="small"></lightning-spinner>
-                    <p class="slds-text-align_center slds-text-body_small slds-m-top_small">
-                        Creating sample comments...
+                        Creating posts and comments...
                     </p>
                 </div>
             </template>
@@ -84,7 +58,7 @@
             <div class="slds-box">
                 <h3 class="slds-text-heading_small slds-m-bottom_medium">
                     <lightning-icon icon-name="utility:page" size="x-small" class="slds-m-right_x-small"></lightning-icon>
-                    Demo Utterances (Copy & Paste)
+                    Agent Demo Utterances (Copy & Paste)
                 </h3>
                 <p class="slds-text-body_small slds-m-bottom_medium slds-text-color_weak">
                     Use these utterances in the Reddit MCP Chat to demonstrate the integration:
