@@ -63,13 +63,35 @@ export default class RedditMCPChat extends LightningElement {
 
         this.currentToolInputs = Object.keys(properties).map(key => {
             const prop = properties[key];
+
+            // Determine input type and options
+            let inputType = 'text';
+            let options = null;
+            let defaultValue = '';
+
+            if (prop.type === 'number') {
+                inputType = 'number';
+            } else if (key === 'sort') {
+                inputType = 'combobox';
+                options = [
+                    { label: 'Hot', value: 'hot' },
+                    { label: 'New', value: 'new' },
+                    { label: 'Top', value: 'top' },
+                    { label: 'Rising', value: 'rising' }
+                ];
+                defaultValue = 'new';
+            } else if (key === 'subreddit') {
+                defaultValue = 'salesforce';
+            }
+
             return {
                 name: key,
                 label: this.formatToolName(key),
-                type: prop.type === 'number' ? 'number' : 'text',
+                type: inputType,
                 placeholder: prop.description || '',
                 required: required.includes(key),
-                value: ''
+                value: defaultValue,
+                options: options
             };
         });
     }

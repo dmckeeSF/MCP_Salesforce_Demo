@@ -64,15 +64,27 @@
                         <div class="tool-inputs">
                             <template for:each={currentToolInputs} for:item="input">
                                 <div key={input.name} class="slds-m-bottom_small">
-                                    <lightning-input
-                                        label={input.label}
-                                        name={input.name}
-                                        type={input.type}
-                                        value={input.value}
-                                        placeholder={input.placeholder}
-                                        required={input.required}
-                                        onchange={handleInputChange}>
-                                    </lightning-input>
+                                    <template if:true={input.options}>
+                                        <lightning-combobox
+                                            label={input.label}
+                                            name={input.name}
+                                            value={input.value}
+                                            options={input.options}
+                                            required={input.required}
+                                            onchange={handleInputChange}>
+                                        </lightning-combobox>
+                                    </template>
+                                    <template if:false={input.options}>
+                                        <lightning-input
+                                            label={input.label}
+                                            name={input.name}
+                                            type={input.type}
+                                            value={input.value}
+                                            placeholder={input.placeholder}
+                                            required={input.required}
+                                            onchange={handleInputChange}>
+                                        </lightning-input>
+                                    </template>
                                 </div>
                             </template>
                         </div>
