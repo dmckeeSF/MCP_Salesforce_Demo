@@ -4,4 +4,5 @@
     <flexiPage>Reddit_MCP_Demo</flexiPage>
     <label>Reddit MCP Demo</label>
     <motif>Custom8: Wrench</motif>
+    <scontrol>false</scontrol>
 </CustomTab>
