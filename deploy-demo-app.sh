@@ -1,17 +1,31 @@
 #!/bin/bash
 
+# Set target org
+TARGET_ORG="dmckee@salesforce.com.mcpdemo032526v2"
+
 # Deploy Reddit MCP Demo App and Components
-echo "Deploying Reddit MCP Demo App, Page, and Permission Set..."
+echo "Deploying Reddit MCP Demo App, Page, and Permission Set to $TARGET_ORG..."
 
 # Deploy the components
-sf project deploy start --source-dir force-app/main/default/applications
-sf project deploy start --source-dir force-app/main/default/flexipages
-sf project deploy start --source-dir force-app/main/default/tabs
-sf project deploy start --source-dir force-app/main/default/permissionsets
+echo ""
+echo "Deploying Lightning App..."
+sf project deploy start --source-dir force-app/main/default/applications --target-org $TARGET_ORG
 
 echo ""
-echo "Assigning RedditMCP_UX_Perm_Set to dmckee@salesforce.com.mcpdemo032526v2..."
-sf org assign permset --name RedditMCP_UX_Perm_Set --target-org dmckee@salesforce.com.mcpdemo032526v2
+echo "Deploying App Page..."
+sf project deploy start --source-dir force-app/main/default/flexipages --target-org $TARGET_ORG
+
+echo ""
+echo "Deploying Tab..."
+sf project deploy start --source-dir force-app/main/default/tabs --target-org $TARGET_ORG
+
+echo ""
+echo "Deploying Permission Set..."
+sf project deploy start --source-dir force-app/main/default/permissionsets --target-org $TARGET_ORG
+
+echo ""
+echo "Assigning RedditMCP_UX_Perm_Set to $TARGET_ORG..."
+sf org assign permset --name RedditMCP_UX_Perm_Set --target-org $TARGET_ORG
 
 echo ""
 echo "✅ Deployment complete!"
