@@ -105,12 +105,21 @@ export default class McpSetup extends LightningElement {
                     if (postData) {
                         try {
                             const parsed = JSON.parse(postData);
-                            this.createdPostIds[post.key] = parsed.id;
+                            if (parsed.id) {
+                                this.createdPostIds[post.key] = parsed.id;
+                                this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (ID: ${parsed.id})`);
+                            } else {
+                                this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (no ID returned)`);
+                            }
                         } catch (e) {
                             console.error('Error parsing post result:', e);
+                            console.error('Post data was:', postData);
+                            this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (parse error)`);
                         }
+                    } else {
+                        console.error('No post data in result:', JSON.stringify(result));
+                        this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit} (no data returned)`);
                     }
-                    this.postResults.push(`✓ Created: "${post.title}" in r/${post.subreddit}`);
                 } else {
                     this.postResults.push(`✗ Failed: "${post.title}" - ${result.error}`);
                 }
@@ -127,6 +136,8 @@ export default class McpSetup extends LightningElement {
     async handleSendComments() {
         this.isLoadingComments = true;
 
+        console.log('Created post IDs:', this.createdPostIds);
+
         if (Object.keys(this.createdPostIds).length === 0) {
             this.showToast('Warning', 'Please create posts first before adding comments!', 'warning');
             this.isLoadingComments = false;
@@ -135,12 +146,16 @@ export default class McpSetup extends LightningElement {
 
         try {
             let successCount = 0;
+            let failedCount = 0;
             for (const comment of this.sampleComments) {
                 const postId = this.createdPostIds[comment.postKey];
                 if (!postId) {
-                    console.warn(`No post ID found for key: ${comment.postKey}`);
+                    console.warn(`No post ID found for key: ${comment.postKey}, available keys:`, Object.keys(this.createdPostIds));
+                    failedCount++;
                     continue;
                 }
+
+                console.log(`Creating comment on post ${postId} for key ${comment.postKey}`);
 
                 const result = await invokeMCPTool({
                     toolName: 'create_comment',
@@ -153,10 +168,18 @@ export default class McpSetup extends LightningElement {
 
                 if (result.success) {
                     successCount++;
+                } else {
+                    failedCount++;
+                    console.error(`Failed to create comment for ${comment.postKey}:`, result.error);
                 }
             }
 
-            this.showToast('Success', `Created ${successCount} comments!`, 'success');
+            if (successCount > 0) {
+                this.showToast('Success', `Created ${successCount} of ${this.sampleComments.length} comments!`, 'success');
+            }
+            if (failedCount > 0) {
+                this.showToast('Warning', `${failedCount} comments failed. Check console for details.`, 'warning');
+            }
         } catch (error) {
             this.showToast('Error', 'Error creating comments: ' + this.getErrorMessage(error), 'error');
         } finally {
