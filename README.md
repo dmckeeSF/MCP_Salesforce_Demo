@@ -5,6 +5,7 @@ A production-ready demonstration of integrating Model Context Protocol (MCP) ser
 ## Overview
 
 This demo showcases how to call MCP servers from Salesforce using standard Apex HTTP callouts with Named Credentials for secure authentication management.
+==NOTE: MCP Agent Actions are not accessible via Apex. Therefore, we need to treat the MCP server as a standard integration. The Named credentials created from the MCP Server registration process can be reused.==
 
 ## What This Demo Includes
 
